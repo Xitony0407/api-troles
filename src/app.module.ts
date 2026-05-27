@@ -32,9 +32,7 @@ import { SeedModule } from './seed/seed.module';
 MongooseModule.forRoot(process.env.MONGO_URI || ''),
 
     // 🍃 Conexión a MongoDB (Para carritos y logs)
-    MongooseModule.forRoot('mongodb://admin:password123@localhost:27017', {
-      dbName: 'troles_nosql_db',
-    }),
+    MongooseModule.forRoot(process.env.MONGO_URI || ''),
 
     ToppingsModule,
 
