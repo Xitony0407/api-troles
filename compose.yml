@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # Tu Base de Datos SQL (Para el catálogo y ventas)
+  postgres-troles:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: troles_db
+    ports:
+      - "5433:5432"
+
+  # Tu Base de Datos NoSQL (Para carritos temporales y logs)
+  mongo-troles:
+    image: mongo:6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    ports:
+      - "27017:27017"
