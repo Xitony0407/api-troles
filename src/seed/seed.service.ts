@@ -8,6 +8,7 @@ import { Topping } from '../toppings/entities/topping.entity';
 import { MetodoPago } from '../metodos-pago/entities/metodos-pago.entity';
 import { EstadoOrden } from '../estados-orden/entities/estados-orden.entity';
 import { Usuario } from '../usuarios/entities/usuario.entity';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class SeedService {
@@ -25,14 +26,27 @@ export class SeedService {
     // 1. Roles
     const roles = await this.rolesRepository.save([{ nombre: 'Cliente' }, { nombre: 'Admin' }]);
     const rolCliente = roles.find(r => r.nombre === 'Cliente');
+    const rolAdmin = roles.find(r => r.nombre === 'Admin');
+
+    // Encriptamos contraseñas para el Seed
+    const salt = await bcrypt.genSalt(10);
+    const contrasenaHash = await bcrypt.hash('123456', salt);
 
     // 2. Usuario de prueba
-    await this.usuariosRepository.save({
-      nombre: 'Usuario Prueba',
-      correo: 'test@test.com',
-      contrasena: '123456',
-      rol: rolCliente,
-    });
+    await this.usuariosRepository.save([
+      {
+        nombre: 'Usuario Prueba',
+        correo: 'test@test.com',
+        contrasena: contrasenaHash,
+        rol: rolCliente,
+      },
+      {
+        nombre: 'Admin Prueba',
+        correo: 'admin@test.com',
+        contrasena: contrasenaHash,
+        rol: rolAdmin,
+      },
+    ]);
 
     // 3. Sabores
     await this.saboresRepository.save([
@@ -51,6 +65,8 @@ export class SeedService {
     await this.toppingsRepository.save([
       { nombre: 'Panditas', precio_extra: 10.00, porcion_gramos: 40 },
       { nombre: 'Chamoy', precio_extra: 0.00, porcion_gramos: 20 },
+      { nombre: 'Chile En Polvo', precio_extra: 0.00, porcion_gramos: 20 },
+      { nombre: 'Tiburones', precio_extra: 10.00, porcion_gramos: 40 },
     ]);
 
     // 6. Métodos de Pago

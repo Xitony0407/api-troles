@@ -15,6 +15,7 @@ import { LogsModule } from './logs/logs.module';
 import { RolesModule } from './roles/roles.module';
 import { MetodosPagoModule } from './metodos-pago/metodos-pago.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
 
 @Module({
@@ -24,7 +25,7 @@ import { SeedModule } from './seed/seed.module';
     url: process.env.DATABASE_URL,
     autoLoadEntities: true,
     synchronize: true,
-    ssl: {
+    ssl: process.env.DATABASE_SSL === 'false' ? false : {
       rejectUnauthorized: false,
     },
   }),
@@ -57,6 +58,7 @@ MongooseModule.forRoot(process.env.MONGO_URI || ''),
     MetodosPagoModule,
 
     UsuariosModule,
+    AuthModule,
     SeedModule,
   ],
   controllers: [AppController],

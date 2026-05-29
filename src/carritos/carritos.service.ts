@@ -22,6 +22,7 @@ export class CarritosService {
   async addItem(id_usuario: string, item: any) {
     const carrito = await this.findOne(id_usuario);
     carrito.items.push(item);
+    carrito.markModified('items'); // Marca explícitamente como modificado
     
     // Recalcular total (suponiendo que el item tiene precio)
     carrito.total_temporal = carrito.items.reduce((acc, curr) => acc + (curr.precio || 0), 0);
