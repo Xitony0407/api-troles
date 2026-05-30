@@ -21,7 +21,7 @@ export class EstadosOrdenService {
     return await this.estadosOrdenRepository.find();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} estadosOrden`;
   }
 
@@ -29,7 +29,8 @@ export class EstadosOrdenService {
     return `This action updates a #${id} estadosOrden`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} estadosOrden`;
-  }
+  async remove(id: number) {
+    await this.estadosOrdenRepository.delete(id);
+    return { message: `EstadoOrden with id ${id} has been removed` };
+  }   
 }
