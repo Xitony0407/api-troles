@@ -23,15 +23,6 @@ export class SeedService {
   ) {}
 
   async runSeed() {
-    // 0. Limpiar base de datos
-    await this.usuariosRepository.query('TRUNCATE "usuarios" RESTART IDENTITY CASCADE');
-    await this.rolesRepository.query('TRUNCATE "roles" RESTART IDENTITY CASCADE');
-    await this.saboresRepository.query('TRUNCATE "sabores" RESTART IDENTITY CASCADE');
-    await this.productosBaseRepository.query('TRUNCATE "productos_base" RESTART IDENTITY CASCADE');
-    await this.toppingsRepository.query('TRUNCATE "toppings" RESTART IDENTITY CASCADE');
-    await this.metodosPagoRepository.query('TRUNCATE "metodos_pago" RESTART IDENTITY CASCADE');
-    await this.estadosOrdenRepository.query('TRUNCATE "estados_orden" RESTART IDENTITY CASCADE');
-
     // 1. Roles
     const roles = await this.rolesRepository.save([{ nombre: 'Cliente' }, { nombre: 'Admin' }]);
     const rolCliente = roles.find(r => r.nombre === 'Cliente');
