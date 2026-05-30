@@ -15,11 +15,8 @@ export class CarritosController {
     return this.carritosService.addItem(body.id_usuario, body.item);
   }
 
-  @Delete('eliminar/:id_usuario/:id_producto')
-  removeItem(
-    @Param('id_usuario') id_usuario: string, 
-    @Param('id_producto') id_producto: string
-  ) {
-    return this.carritosService.removeItem(id_usuario, id_producto);
+  @Delete('vaciar/:id_usuario')
+  clearCarrito(@Param('id_usuario') id_usuario: string) {
+    return this.carritosService.clearCarrito(id_usuario);
   }
 }

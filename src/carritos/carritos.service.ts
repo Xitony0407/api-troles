@@ -30,14 +30,12 @@ export class CarritosService {
     return await carrito.save();
   }
 
-  // Elimina un producto del carrito
-  async removeItem(id_usuario: string, id_producto: string) {
+  // Vacía el carrito del usuario
+  async clearCarrito(id_usuario: string) {
     const carrito = await this.findOne(id_usuario);
-    carrito.items = carrito.items.filter(item => item.id_producto !== id_producto);
-    
-    // Recalcular total
-    carrito.total_temporal = carrito.items.reduce((acc, curr) => acc + (curr.precio || 0), 0);
-    
+    carrito.items = [];
+    carrito.total_temporal = 0;
+    carrito.markModified('items');
     return await carrito.save();
   }
 }
